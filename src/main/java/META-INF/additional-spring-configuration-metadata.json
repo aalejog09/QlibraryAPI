@@ -1,0 +1,26 @@
+{"groups": [
+    {
+        "name": "server",
+        "type": "org.springframework.boot.autoconfigure.web.ServerProperties",
+        "sourceType": "org.springframework.boot.autoconfigure.web.ServerProperties"
+    },
+    {
+        "name": "spring.jpa.hibernate",
+        "type": "org.springframework.boot.autoconfigure.orm.jpa.JpaProperties$Hibernate",
+        "sourceType": "org.springframework.boot.autoconfigure.orm.jpa.JpaProperties",
+        "sourceMethod": "getHibernate()"
+    }
+],"properties": [
+    {
+        "name": "postgre",
+        "description":"Propiedad que referencia la conexion a la BD-Postgresql",
+        "type": "string",
+        "sourceType": "string"
+    },
+    {
+          "name": "cors.origin.main",
+          "type": "java.lang.String",
+          "description": "Varibale que indica la informacion de acceso permitido por CorsOrigins",
+          "sourceType": "string"
+    }
+]}

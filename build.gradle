@@ -1,0 +1,56 @@
+plugins {
+	id 'java'
+	id 'war'
+	id 'org.springframework.boot' version '2.7.9'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.api.qlibrary'
+version = '1.1.1'
+sourceCompatibility = '11'
+
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'javax.validation:validation-api:2.0.1.Final'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+	implementation 'org.postgresql:postgresql:42.2.25'
+	implementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.security:spring-security-test'
+	implementation 'org.projectlombok:lombok:1.18.24'
+	implementation 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.projectlombok:lombok:1.18.24'
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	testCompileOnly 'org.projectlombok:lombok:1.18.24'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+	implementation 'org.apache.commons:commons-lang3:3.13.0'
+	implementation 'com.diffplug.durian:durian:3.4.0'
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	
+}
+
+
+dependencyManagement {
+	imports {
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
