@@ -20,23 +20,6 @@ public interface IAppuserRepository extends JpaRepository< Appuser, Integer >{
 	 * @return User
 	 */
 	public Appuser findByUsername(String username);
-	
-	
-	/**
-	 * Método que implementa la busqueda de un nombre de usuario.
-	 * @param username
-	 * @return boolean 
-	 */
-	public boolean existsByUsernameIgnoreCase(String username);
-
-
-	/**
-	 * Método que implementa la busqueda de un usuario con el correo del usuario.
-	 * @param userEmail
-	 * @return User
-	 */
-	public Appuser findByEmail(String userEmail);
-
 
 	/**
 	 * Método que implementa la busqueda de un usuario con su nombre y clave de acceso.
@@ -44,6 +27,32 @@ public interface IAppuserRepository extends JpaRepository< Appuser, Integer >{
 	 * @return User
 	 */
 	public Appuser findByUsernameAndAccessCode(String username, String accessCode);
+
+	
+	/**
+	 * Metodo para consultar la disponibilidad de un nombre de usuario.
+	 * 
+	 * @param username
+	 * @return boolean
+	 */
+	public boolean existsByUsernameIgnoreCase(String username);
+
+	
+	/**
+	 * Metodo para consultar la disponibilidad de un email de usuario.
+	 * 
+	 * @param email
+	 * @return boolean
+	 */
+	public boolean existsByEmailIgnoreCase(String email);
+
+	/**
+	 * Metodo para consultar la disponibilidad de un codigo de empleado.
+	 * 
+	 * @param identificationCode
+	 * @return boolean
+	 */
+	public boolean existsByIdentificationCodeIgnoreCase(String identificationCode);
 
 
 

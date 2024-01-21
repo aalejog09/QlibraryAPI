@@ -25,6 +25,8 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'jakarta.mail:jakarta.mail-api:2.1.0'
+	implementation 'javax.mail:javax.mail-api:1.5.1'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'javax.validation:validation-api:2.0.1.Final'
@@ -42,6 +44,7 @@ dependencies {
 	implementation 'org.apache.commons:commons-lang3:3.13.0'
 	implementation 'com.diffplug.durian:durian:3.4.0'
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'org.springframework.security:spring-security-crypto:5.0.0.RELEASE'
 	
 }
 

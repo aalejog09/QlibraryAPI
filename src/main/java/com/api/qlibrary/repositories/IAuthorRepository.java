@@ -28,6 +28,9 @@ public interface IAuthorRepository extends JpaRepository< Author , Integer > {
 	 * @return Author
 	 */
 	public Author findByCode(String code);
-	
 
+	public Author getAuthorDataByCode(String authorCode);
+	
+	public Author findByNameAndLastnameAndCountry(String name, String lastname, String country);
+	
 }

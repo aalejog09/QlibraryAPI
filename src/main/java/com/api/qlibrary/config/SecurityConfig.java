@@ -100,7 +100,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         
         http.authorizeRequests()
         .antMatchers("/qlibray/api/v1/auth/requestToken").permitAll()
-        .antMatchers("/","/qlibray/api/v1/auth/login","/qlibray/api/v1/consult/**").permitAll()
+        .antMatchers("/qlibray/api/v1/auth/login").permitAll()
+        .antMatchers("/qlibray/api/v1/author/getInfo").permitAll()
         .antMatchers("/swagger-ui/**").permitAll() //necesario para acceder a  swagger sin ninguna restriccion
         //.antMatchers("/swagger-ui/**").hasIpAddress(swagerOrigin) //necesario para swagger con restriccion
         .antMatchers("swagger-ui.html").permitAll() //necesario para swagger
@@ -108,7 +109,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         .antMatchers("/v2/api-docs/**").permitAll()//necesario para swagger
         .antMatchers("/v2/api-docs").permitAll()//necesario para swagger
         .antMatchers(HttpMethod.OPTIONS).permitAll()//necesario para que accedan a todos los componentes de las carpetas internas del app
-        .antMatchers("/include/**","/css/**","/icons/**","/img/**","/js/**","/layer/**").permitAll()
+     //   .antMatchers("/include/**","/css/**","/icons/**","/img/**","/js/**","/layer/**").permitAll()
         .anyRequest().authenticated()
         .and()
         .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
