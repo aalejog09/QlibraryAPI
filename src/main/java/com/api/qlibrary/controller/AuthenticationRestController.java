@@ -4,7 +4,6 @@ package com.api.qlibrary.controller;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.qlibrary.models.Appuser;
-import com.api.qlibrary.models.Role;
 import com.api.qlibrary.services.UserDetailsServiceImpl;
 import com.api.qlibrary.services.interfaces.IAppuserService;
 import com.api.qlibrary.util.JwtRequest;

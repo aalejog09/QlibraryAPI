@@ -1,11 +1,7 @@
 package com.api.qlibrary.services;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Locale;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -24,7 +20,7 @@ import com.api.qlibrary.util.Utility;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Clase de métodos de servicios de usuarios.
+ * Clase de métodos de servicios de autores.
  * @author Aalejo
  *
  */
@@ -50,6 +46,7 @@ public class AuthorService implements IAuthorService {
 	 */
 	@Autowired
 	IEmailService iEmailService;
+	
 	
 	
 	/**
@@ -85,7 +82,7 @@ public class AuthorService implements IAuthorService {
 		
 		
 		boolean checkExistingAutor= existAuthorByNameAndLastnameAndCountry(authorDTO);
-		String authorCode=generatedAuthorCode();
+		String authorCode=utility.generatedUniqueCode();
 		log.info("authorCode: {}",authorCode);
 		
 		if(checkExistingAutor==false) {
@@ -111,26 +108,6 @@ public class AuthorService implements IAuthorService {
 		
 	}
 	
-	/***
-	 * Metodo que genera el codigo del author haciendo uso del momento exacto de su creacion.
-	 * 
-	 * 
-	 * @return authorCode
-	 * @throws Exception
-	 */
-	public String generatedAuthorCode() throws Exception {
-		
-		
-		String dateString=utility.DateToStringFormatterNoDash(new Date());
-		   LocalTime horaActual = LocalTime.now();
-	        DateTimeFormatter formato = DateTimeFormatter.ofPattern("HHmmss");
-	        String horaFormateada = horaActual.format(formato);
-		log.info("esta es la variable: {}",horaFormateada);
-		
-		String authorCode=dateString+horaFormateada;
-		return authorCode;
-		
-	}
 	
 	/**
 	 * Metodo para validar la existencia de un author por su codigo. 
@@ -156,6 +133,25 @@ public class AuthorService implements IAuthorService {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public Author getAuthorByCode(@Valid String authorCode) throws Exception {
+
+		Author author=iAuthorRepository.getAuthorDataByCode(authorCode);
+		
+		if (author!=null) {
+			log.info("autor  existe: {}",author);
+			return author;
+		}
+		throw new Exception("No se encuentro el autor");
+	}
+
+	@Override
+	public Set<Author> findAllById(String authorCode) {
+
+		Set<Author> author=iAuthorRepository.findAllByCode(authorCode);
+		return author;
 	}
 	
 }

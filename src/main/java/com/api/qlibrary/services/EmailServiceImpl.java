@@ -6,7 +6,6 @@ package com.api.qlibrary.services;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,5 @@
 package com.api.qlibrary.auxiliar.author;
 
-import java.util.Date;
 
 import lombok.Data;
 

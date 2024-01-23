@@ -3,30 +3,28 @@ package com.api.qlibrary.util;
 import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Properties;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.mail.Authenticator;
-import javax.mail.Message.RecipientType;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.api.qlibrary.auxiliar.author.AuthorDTO;
+import com.api.qlibrary.auxiliar.category.CategoryDTO;
 import com.api.qlibrary.models.Appuser;
+import com.api.qlibrary.models.Author;
+import com.api.qlibrary.models.Book;
+import com.api.qlibrary.models.Category;
 import com.api.qlibrary.repositories.IAppuserRepository;
-import com.api.qlibrary.services.AppuserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,9 +36,6 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class Utility {
-
-	@Autowired
-	private Environment env;
 	
 	/**
 	 * Variable que se usa para importar métodos de la libreria de LOGGER.
@@ -193,5 +188,108 @@ public class Utility {
 		logger.info("saliendo en StringToDateFormatter con date: {}",dateString );
 		return dateFormated;
 	}
+	
+	
+	/***
+	 * Metodo para mapear un objeto Author a otro AuthorDTO
+	 * @param author
+	 * @param authorDTO
+	 * @return el Author mapeado.
+	 * @throws ParseException
+	 */
+	public AuthorDTO mapAuthorToAuthorDTO(Author author, AuthorDTO authorDTO) throws ParseException {
+		
+		authorDTO.setName(author.getName());
+		authorDTO.setLastname(author.getLastname());
+		authorDTO.setCountry(author.getCountry());
+		authorDTO.setCode(author.getCode());
+		String authorBirthday = DateToStringFormatterDash(author.getBirthday());
+		authorDTO.setBirthday(authorBirthday);
+		
+		return authorDTO;
+		
+	}
+	
+	/***
+	 * Metodo para mapear una lista de datos de autor
+	 * @param authorDTOs
+	 * @param authorDTO
+	 * @param book
+	 * @return lista con data publica.
+	 * @throws ParseException
+	 */
+	public List<AuthorDTO> mapAuthorDtoList(List<AuthorDTO> authorDTOs, AuthorDTO authorDTO, Book book) throws ParseException {
+		Set<Author> authors = book.getAuthors();
+		
+		for (Author author : authors) {
+		    
+			authorDTO= 	mapAuthorToAuthorDTO(author, authorDTO);
+			
+			authorDTOs.add(authorDTO);
+			}
+		return authorDTOs;
+		
+	}
+	
+	/***
+	 * Metodo para mapear la data de la categoria. 
+	 * @param category
+	 * @param categoryDTO
+	 * @return la categoria mapeada.
+	 * @throws ParseException
+	 */
+	public CategoryDTO mapCategoryToCategoryDTO(Category category, CategoryDTO categoryDTO) throws ParseException {
+		
+		categoryDTO.setName(category.getName());
+		
+		return categoryDTO;
+		
+	}
+	
+	/***
+	 * Metodo para mapear una lista de datos de categorias
+	 * @param categoryDTOs
+	 * @param categoryDTO
+	 * @param book
+	 * @return lista con data publica.
+	 * @throws ParseException
+	 */
+	public List<CategoryDTO> mapCategoryDtoList(List<CategoryDTO> categoryDTOs, CategoryDTO categoryDTO, Book book) throws ParseException {
+		Set<Category> categories = book.getCategories();
+		
+		for (Category category : categories) {
+		    
+			categoryDTO= mapCategoryToCategoryDTO(category, categoryDTO);
+			
+			categoryDTOs.add(categoryDTO);
+			
+			}
+		
+		return categoryDTOs;
+		
+	}
+	
+	
+	/***
+	 * Metodo que genera un codigo unico haciendo uso del momento exacto de su creacion.
+	 * 
+	 * 
+	 * @return code
+	 * @throws Exception
+	 */
+	public String generatedUniqueCode() throws Exception {
+		
+		
+		String dateString=DateToStringFormatterNoDash(new Date());
+		   LocalTime horaActual = LocalTime.now();
+	        DateTimeFormatter formato = DateTimeFormatter.ofPattern("HHmmss");
+	        String horaFormateada = horaActual.format(formato);
+		log.info("horaFormateada: {}",horaFormateada);
+		
+		String code=dateString+horaFormateada;
+		return code;
+		
+	}
+	
 	
 }

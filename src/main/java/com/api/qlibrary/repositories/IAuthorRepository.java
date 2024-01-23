@@ -1,6 +1,7 @@
 package com.api.qlibrary.repositories;
 
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -28,6 +29,8 @@ public interface IAuthorRepository extends JpaRepository< Author , Integer > {
 	 * @return Author
 	 */
 	public Author findByCode(String code);
+	
+	public Set<Author> findAllByCode(String code);
 
 	public Author getAuthorDataByCode(String authorCode);
 	

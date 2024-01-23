@@ -31,8 +31,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "book")
-@Data
-@AllArgsConstructor
+@Data@AllArgsConstructor
 @NoArgsConstructor
 public class Book{
 		
@@ -105,8 +104,9 @@ public class Book{
 	@JoinTable(name="book_category_aux",
 	joinColumns=@JoinColumn(name="book_id"),
 	inverseJoinColumns=@JoinColumn(name="category_id"))
-	private Set<Category> category = new HashSet<Category>();
-	
+	private Set<Category> categories = new HashSet<Category>();
+
+
 	
 
 }
