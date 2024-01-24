@@ -47,7 +47,7 @@ public class AuthorRestController {
 	 * @return Author
 	 * @throws Exception
 	 */
-	@PostMapping(value="/getInfo")
+	@PostMapping(value="/consult/getInfo")
 	public ResponseEntity<?> getAuthorInfo(@RequestBody @Valid AuthorDTO authorDTO) throws Exception {
 		log.info("data recibida: {}",authorDTO.toString());
 		try {

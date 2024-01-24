@@ -1,5 +1,6 @@
 package com.api.qlibrary.services;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Set;
 
@@ -8,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.api.qlibrary.auxiliar.appUser.AppUserCreateDTO;
+import com.api.qlibrary.auxiliar.appUser.AppuserDTO;
 import com.api.qlibrary.models.Appuser;
 import com.api.qlibrary.models.Role;
 import com.api.qlibrary.repositories.IAppuserRepository;
@@ -73,56 +75,60 @@ public class AppuserService implements IAppuserService {
 	/**
 	 * Metodo para crear un usuario de tipo Bibliotecario en el sistema.
 	 * 
-	 * @param appUserDTO
+	 * @param appuserData
 	 * @return Appuser
 	 */
-	public Appuser createAppUser(AppUserCreateDTO appUserDTO) throws Exception {
-		
-		boolean emailDomainCheck= utility.validateEmailDomain(appUserDTO.getEmail());
+	public AppuserDTO createAppUser(AppUserCreateDTO appuserData) throws Exception {
+		log.info("usuario recibido: {}", appuserData);	
+		boolean emailDomainCheck= utility.validateEmailDomain(appuserData.getEmail());
 		
 		if(emailDomainCheck==false ) { 
 			throw new Exception("Correo electronico no cumple con el formato correcto.");
 			
 		}
 		
-		if (checkDNIString(appUserDTO.getIdentificationCode()) 
-				&& checkEmailString(appUserDTO.getEmail()) 
-				&&  checkUsernameString(appUserDTO.getUsername() )) {
+		if (checkDNIString(appuserData.getIdentificationCode()) 
+				&& checkEmailString(appuserData.getEmail()) 
+				&&  checkUsernameString(appuserData.getUsername() )) {
 			
-			log.info("usuario recibido: {}", appUserDTO);		
+				
 			
-			Set<Role> role = roleService.getRoleById(2);
+			//instancia del modelo user.
 			Appuser appuser = new Appuser();
-			log.info("role {}",role);
-			appuser.setIdentificationCode(appUserDTO.getIdentificationCode());
-			appuser.setUsername(appUserDTO.getUsername());
-			appuser.setFirstname(appUserDTO.getFirstname());
-			appuser.setLastname(appUserDTO.getLastname());
-			appuser.setEmail(appUserDTO.getEmail());
-			appuser.setCreationDate(new Date());
-			appuser.setLastEntryDate(null);
-			appuser.setRoles(role);
+			//mapear datos a registrar.
+			appuser = mapAppuserdtoToAppuser(appuser, appuserData);
 			
+			//instancia del DTO a devolver.
+			AppuserDTO appuserDTO = new AppuserDTO();
 			
-			String newPassword= utility.passwordGenerator();
-			log.info("Nueva contraseña generada",newPassword);
+			try {
+				//guardar usuario.
+				appuserRepository.save(appuser);
+				log.info("usuario creado: {}", appuser);
+				
+				//mapear usuario.
+				appuserDTO= mapAppuserToDTO(appuser,appuserDTO);
+				
+				//enviar correos de notificacion.
+				log.info("enviado correo electronico de notificacion al usuario.");
+				iEmailService.sendEmail(
+						appuser.getEmail(),
+						Constants.USER_CREATED_NOTIFICATION ,
+						Constants.USER_CREATED
+						+"\n User: "+appuser.getUsername()
+						+" \n clave: "+appuser.getAccessCode()+"\n"+
+						Constants.EMAIL_FOOTER);
+				log.info("enviado correo electronico de notificacion al administrador del sistema..");
+				iEmailService.sendEmail("aalejog09@gmail.com", Constants.USER_CREATED_NOTIFICATION, "Se ha creado el usuario: "+appuser.getUsername()+" para la aplicacion Qlibrary."+Constants.EMAIL_FOOTER);
+				log.info("Correos enviados exitosamente.");
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new Exception("Ocurrio un error al intentar registrar al usuario"+e.getMessage());
+				
+				
+			}
 			
-			String encodedPassword = bCryptPasswordEncoder.encode(newPassword);
-			appuser.setAccessCode(encodedPassword);			
-			appuserRepository.save(appuser);
-			log.info("usuario creado: {}", appuser);
-			appuser.setAccessCode("********");
-			
-			iEmailService.sendEmail(
-					appuser.getEmail(),
-					Constants.USER_CREATED_NOTIFICATION ,
-					Constants.USER_CREATED
-					+"\n User: "+appuser.getUsername()
-					+" \n clave: "+newPassword+"\n"+
-					Constants.EMAIL_FOOTER);
-			
-			iEmailService.sendEmail("aalejog09@gmail.com", Constants.USER_CREATED_NOTIFICATION, "Se ha creado el usuario: "+appuser.getUsername()+" para la aplicacion Qlibrary."+Constants.EMAIL_FOOTER);
-			return appuser;
+			return appuserDTO;
 	    }
 		return null;
 	}
@@ -171,6 +177,41 @@ public class AppuserService implements IAppuserService {
 		}
 		return true;
 	}
+	
+	public AppuserDTO mapAppuserToDTO(Appuser appuser, AppuserDTO appuserDTO) {
+		
+		appuserDTO.setEmail(appuser.getEmail());
+		appuserDTO.setFirstname(appuser.getFirstname());
+		appuserDTO.setLastname(appuser.getLastname());
+		appuserDTO.setIdentificationCode(appuser.getIdentificationCode());
+		appuserDTO.setUsername(appuser.getUsername());
+		
+		return appuserDTO;
+	}
+	
+	public Appuser mapAppuserdtoToAppuser( Appuser appuser, AppUserCreateDTO appuserData) throws ParseException {
+		
+		appuser.setIdentificationCode(appuserData.getIdentificationCode());
+		appuser.setUsername(appuserData.getUsername().toLowerCase());
+		appuser.setFirstname(appuserData.getFirstname());
+		appuser.setLastname(appuserData.getLastname());
+		appuser.setEmail(appuserData.getEmail());
+		
+		String newPassword= utility.passwordGenerator();
+		String encodedPassword = bCryptPasswordEncoder.encode(newPassword);
+		
+		appuser.setAccessCode(encodedPassword);	
+		appuser.setCreationDate(new Date());
+		appuser.setLastEntryDate(null);
+		Set<Role> role = roleService.getRoleById(2);
+		appuser.setRoles(role);
+		
+		
+		return appuser;
+		
+		
+	}
+	
 	
 	
 }

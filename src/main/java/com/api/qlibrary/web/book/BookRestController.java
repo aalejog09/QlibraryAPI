@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.qlibrary.auxiliar.book.BookDTO;
+import com.api.qlibrary.auxiliar.book.AuthorBookDTO;
+import com.api.qlibrary.auxiliar.book.BookConsultDTO;
+import com.api.qlibrary.auxiliar.book.BookResponseDTO;
+import com.api.qlibrary.auxiliar.book.CategoryBookDTO;
 import com.api.qlibrary.auxiliar.book.CreateBookDTO;
 import com.api.qlibrary.services.interfaces.IBookService;
 
@@ -41,33 +44,9 @@ public class BookRestController {
 	@Autowired
 	IBookService bookServiceinterface;
 	
-
 	
 	/**
-	 * Método de controlador que llama servicio que consulta al author por su codigo.
-	 * @param AuthorDTO
-	 * 
-	 * @return Author
-	 * @throws Exception
-	 */
-	@GetMapping(value="/listAll")
-	public ResponseEntity<?> getAllBooks() throws Exception {
-		log.info("Consultando los libros registrados");
-		Map<String,Object> response = new HashMap<String,Object>();
-		try {
-			List<BookDTO> bookList = bookServiceinterface.getAllBookList();
-			log.info("bookList: {}",bookList);
-			response.put("bookList", bookList);
-			
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_ACCEPTABLE);  //throw new ObjectNotFoundException(null, null); 
-		}
-	}
-	
-	/**
-	 * Método de controlador que llama servicio que consulta al author por su codigo.
+	 * Método de controlador que llama servicio para crear un libro.
 	 * @param BookDTO
 	 * 
 	 * @return bookDTO
@@ -92,6 +71,138 @@ public class BookRestController {
 			return new ResponseEntity<>(response,HttpStatus.NOT_ACCEPTABLE);  //throw new ObjectNotFoundException(null, null); 
 		}
 	}
-    
+	
+	
+	/**
+	 * Método de controlador que llama servicio que consulta todos los libros registrados.
+	 * @param AuthorDTO
+	 * 
+	 * @return Author
+	 * @throws Exception
+	 */
+	@GetMapping(value="/consult/listAll")
+	public ResponseEntity<?> getAllBooks() throws Exception {
+		log.info("Consultando los libros registrados");
+		Map<String,Object> response = new HashMap<String,Object>();
+		try {
+			List<BookResponseDTO> bookList = bookServiceinterface.getAllBookList();
+			log.info("bookList: {}",bookList);
+			response.put("bookList", bookList);
+			
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_ACCEPTABLE);  //throw new ObjectNotFoundException(null, null); 
+		}
+	}
+	
+	
+	/**
+	 * Método de controlador que llama servicio que agrega una categoria a un libro.
+	 * @return CategoryBookDTO
+	 * @throws Exception
+	 */
+	@PostMapping(value= "/addCategory")
+	public ResponseEntity<?> addCategoryToBook(@RequestBody CategoryBookDTO data) throws Exception {		
+		
+		Map<String,Object> response = new HashMap<String,Object>();
+		try {
+			BookResponseDTO bookResponse=bookServiceinterface.addCategoryToBook(data);
+			log.info("bookResponse: {}",bookResponse);
+			
+			response.put("bookResponse", bookResponse);
+			response.put("Status","Agregado exitosamente");
+			
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			response.put("status", "Error");
+			response.put("message", "Ocurrio un error al agregar la categoria al libro  por favor verifique los datos e intentelo nuevamente");
+			response.put("exception", e.getMessage());
+			return new ResponseEntity<>( response,HttpStatus.NOT_FOUND);
+		}
+
+	}
+	
+	
+	/**
+	 * Método de controlador que llama servicio que agrega una categoria a un libro.
+	 * @return FinancialEntity
+	 * @throws Exception
+	 */
+	@PostMapping(value= "/addAuthor")
+	public ResponseEntity<?> addAuthorToBook(@RequestBody AuthorBookDTO data) throws Exception {		
+		
+		Map<String,Object> response = new HashMap<String,Object>();
+		try {
+			BookResponseDTO bookResponse=bookServiceinterface.addAuthorToBook(data);
+			log.info("bookResponse: {}",bookResponse);
+			
+			response.put("bookResponse", bookResponse);
+			response.put("Status","Agregado exitosamente");
+			
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			response.put("status", "Error");
+			response.put("message", "Ocurrio un error al agregar el author al libro  por favor verifique los datos e intentelo nuevamente");
+			response.put("exception", e.getMessage());
+			return new ResponseEntity<>( response,HttpStatus.NOT_FOUND);
+		}
+
+	}
+	
+	/**
+	 * Método de controlador que llama servicio que consultar un libro por su codigo.
+	 * @param BookConsultDTO
+	 * 
+	 * @return Author
+	 * @throws Exception
+	 */
+	@PostMapping(value="/consult/getInfo")
+	public ResponseEntity<?> getBookInfo(@RequestBody BookConsultDTO bookDTO) throws Exception {
+		log.info("Consultando la informacion del libro con el codigo: {}",bookDTO);
+		Map<String,Object> response = new HashMap<String,Object>();
+		try {
+			BookResponseDTO book = bookServiceinterface.getBookInfoByCode(bookDTO);
+			log.info("book: {}",book);
+			response.put("book", book);
+			
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			response.put("status", "Error");
+			response.put("message", "Ocurrio un error al consultar el libro.");
+			response.put("exception", e.getMessage());
+			return new ResponseEntity<>( response,HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
+	/**
+	 * Método de controlador que llama servicio que consultar un libro por su codigo.
+	 * @param BookConsultDTO
+	 * 
+	 * @return Author
+	 * @throws Exception
+	 */
+	@PostMapping(value="/consult/listByCategoryId")
+	public ResponseEntity<?> getAllByCategoryId(@RequestBody BookConsultDTO bookDTO) throws Exception {
+		log.info("Consultando la informacion del libro con el categoryId: {}",bookDTO);
+		Map<String,Object> response = new HashMap<String,Object>();
+		try {
+			List<BookResponseDTO> book = bookServiceinterface.getBookInfoByCategory(bookDTO);
+			log.info("book: {}",book);
+			response.put("book", book);
+			
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			response.put("status", "Error");
+			response.put("message", "Ocurrio un error al consultar el libro.");
+			response.put("exception", e.getMessage());
+			return new ResponseEntity<>( response,HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
+	
+	
     
 }

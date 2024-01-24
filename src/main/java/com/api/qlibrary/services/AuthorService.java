@@ -80,34 +80,47 @@ public class AuthorService implements IAuthorService {
 	@Override
 	public AuthorDTO createAuthor(@Valid AuthorDTO authorDTO) throws Exception {
 		
-		
 		boolean checkExistingAutor= existAuthorByNameAndLastnameAndCountry(authorDTO);
-		String authorCode=utility.generatedUniqueCode();
-		log.info("authorCode: {}",authorCode);
-		
-		if(checkExistingAutor==false) {
-			//usuario que realiza la consulta
-			Appuser userActive=utility.getActiveUser();
-			
-			Author createdAuthor = new Author();
-			createdAuthor.setName(authorDTO.getName().toUpperCase());
-			createdAuthor.setLastname(authorDTO.getLastname().toUpperCase());
-			createdAuthor.setCountry(authorDTO.getCountry().toUpperCase());
-			createdAuthor.setBirthday(utility.StringToDateFormatter(authorDTO.getBirthday()));
-			createdAuthor.setCode(authorCode);
-			createdAuthor.setAppuser(userActive);
-			createdAuthor.setCreationDate(new Date());
-			authorDTO.setCode(authorCode);
-			iAuthorRepository.save(createdAuthor);
-			
-			return authorDTO;
-			
+		log.info("autor ya existe: {}",checkExistingAutor);
+		if(checkExistingAutor==true) {
+			log.info("autor ya existe: {}",authorDTO);
+			throw new Exception("El autor ya se encuentra registrado");
 		}
-		log.info("autor ya existe: {}",authorDTO);
-		throw new Exception("El autor ya se encuentra registrado");
 		
+			Author createdAuthor = new Author();
+			createdAuthor=mapAuthordtoToAutor(createdAuthor, authorDTO);
+			
+			try {
+				iAuthorRepository.save(createdAuthor);
+				authorDTO.setCode(createdAuthor.getCode());
+				return authorDTO;
+			} catch (Exception e ) {
+				e.printStackTrace();
+				
+			throw new Exception(e.getMessage());
+			}
+			
 	}
 	
+	
+	
+	
+	public Author mapAuthordtoToAutor(Author createdAuthor, AuthorDTO authorDTO) throws Exception {
+		createdAuthor.setName(authorDTO.getName().toUpperCase());
+		createdAuthor.setLastname(authorDTO.getLastname().toUpperCase());
+		createdAuthor.setCountry(authorDTO.getCountry().toUpperCase());
+		createdAuthor.setBirthday(utility.StringToDateFormatter(authorDTO.getBirthday()));
+		
+		Appuser userActive=utility.getActiveUser();
+		createdAuthor.setAppuser(userActive);
+		createdAuthor.setCreationDate(new Date());
+		
+		String authorCode=utility.generatedUniqueCode();
+		createdAuthor.setCode(authorCode);
+		
+		return createdAuthor;
+	
+	}
 	
 	/**
 	 * Metodo para validar la existencia de un author por su codigo. 
@@ -128,7 +141,7 @@ public class AuthorService implements IAuthorService {
 	@Override
 	public boolean existAuthorByNameAndLastnameAndCountry(@Valid AuthorDTO authorDTO) {
 		
-		Author author=iAuthorRepository.findByNameAndLastnameAndCountry(authorDTO.getName(),authorDTO.getLastname(), authorDTO.getCountry());
+		Author author=iAuthorRepository.findByNameAndLastnameAndCountry(authorDTO.getName().toUpperCase(),authorDTO.getLastname().toUpperCase(), authorDTO.getCountry().toUpperCase());
 		if (author!=null) {
 			return true;
 		}
@@ -148,9 +161,15 @@ public class AuthorService implements IAuthorService {
 	}
 
 	@Override
-	public Set<Author> findAllById(String authorCode) {
+	public Set<Author> findAllById(String authorCode) throws Exception {
 
 		Set<Author> author=iAuthorRepository.findAllByCode(authorCode);
+		
+		if(author.isEmpty()==true) {
+			throw new Exception("No se encontro el autor solicitado.");
+		}
+		
+		
 		return author;
 	}
 	

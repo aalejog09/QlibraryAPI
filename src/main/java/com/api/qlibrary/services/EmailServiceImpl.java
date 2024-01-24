@@ -28,7 +28,7 @@ public class EmailServiceImpl implements IEmailService{
 
     @Override
     public void sendEmail(String toUser, String subject, String message) {
-
+    	
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(emailUser);
         mailMessage.setTo(toUser);

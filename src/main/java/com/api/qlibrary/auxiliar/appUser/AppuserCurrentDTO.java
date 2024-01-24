@@ -11,7 +11,7 @@ import lombok.Data;
 
 @SuppressWarnings("serial")
 @Data
-public class AppUserCurrentDTO implements UserDetails{
+public class AppuserCurrentDTO implements UserDetails{
 	
     private String username;
     private String password;

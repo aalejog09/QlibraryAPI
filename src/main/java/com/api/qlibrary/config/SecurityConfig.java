@@ -101,7 +101,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.authorizeRequests()
         .antMatchers("/qlibray/api/v1/auth/requestToken").permitAll()
         .antMatchers("/qlibray/api/v1/auth/login").permitAll()
-        .antMatchers("/qlibray/api/v1/author/getInfo").permitAll()
+        .antMatchers("/qlibray/api/v1/author/consult/getInfo").permitAll()
+        .antMatchers("/qlibray/api/v1/book/consult/**").permitAll()
         .antMatchers("/swagger-ui/**").permitAll() //necesario para acceder a  swagger sin ninguna restriccion
         //.antMatchers("/swagger-ui/**").hasIpAddress(swagerOrigin) //necesario para swagger con restriccion
         .antMatchers("swagger-ui.html").permitAll() //necesario para swagger

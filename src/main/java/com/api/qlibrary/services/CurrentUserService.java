@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.api.qlibrary.auxiliar.appUser.AppUserCurrentDTO;
+import com.api.qlibrary.auxiliar.appUser.AppuserCurrentDTO;
 import com.api.qlibrary.models.Appuser;
 import com.api.qlibrary.repositories.IAppuserRepository;
 
@@ -31,7 +31,7 @@ public class CurrentUserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Appuser user = appuserRepository.findByUsername(username);
         if (user != null) {
-            final AppUserCurrentDTO currentUser = new AppUserCurrentDTO();
+            final AppuserCurrentDTO currentUser = new AppuserCurrentDTO();
             currentUser.setUsername(user.getUsername());
             currentUser.setPassword(user.getAccessCode());
             return currentUser;

@@ -24,5 +24,5 @@ public interface IAuthorService {
 	
 	public boolean existAuthorByNameAndLastnameAndCountry(@Valid AuthorDTO authorDTO);
 
-	public Set<Author> findAllById(String authorCode);
+	public Set<Author> findAllById(String authorCode) throws Exception;
 }

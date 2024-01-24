@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.api.qlibrary.auxiliar.author.AuthorDTO;
+import com.api.qlibrary.auxiliar.book.BookResponseDTO;
 import com.api.qlibrary.auxiliar.category.CategoryDTO;
 import com.api.qlibrary.models.Appuser;
 import com.api.qlibrary.models.Author;
@@ -218,14 +220,15 @@ public class Utility {
 	 * @return lista con data publica.
 	 * @throws ParseException
 	 */
-	public List<AuthorDTO> mapAuthorDtoList(List<AuthorDTO> authorDTOs, AuthorDTO authorDTO, Book book) throws ParseException {
+	public List<AuthorDTO> mapAuthorDtoList(List<AuthorDTO> authorDTOs,  Book book) throws ParseException {
 		Set<Author> authors = book.getAuthors();
 		
 		for (Author author : authors) {
-		    
-			authorDTO= 	mapAuthorToAuthorDTO(author, authorDTO);
+			AuthorDTO authorDTOfilled= new AuthorDTO();
 			
-			authorDTOs.add(authorDTO);
+			authorDTOfilled= mapAuthorToAuthorDTO(author, authorDTOfilled);
+			
+			authorDTOs.add(authorDTOfilled);
 			}
 		return authorDTOs;
 		
@@ -254,14 +257,15 @@ public class Utility {
 	 * @return lista con data publica.
 	 * @throws ParseException
 	 */
-	public List<CategoryDTO> mapCategoryDtoList(List<CategoryDTO> categoryDTOs, CategoryDTO categoryDTO, Book book) throws ParseException {
+	public List<CategoryDTO> mapCategoryDtoList(List<CategoryDTO> categoryDTOs, Book book) throws ParseException {
 		Set<Category> categories = book.getCategories();
 		
 		for (Category category : categories) {
-		    
-			categoryDTO= mapCategoryToCategoryDTO(category, categoryDTO);
+			CategoryDTO categoryDTOfilled= new CategoryDTO();
+		
+			categoryDTOfilled= mapCategoryToCategoryDTO(category, categoryDTOfilled);
 			
-			categoryDTOs.add(categoryDTO);
+			categoryDTOs.add(categoryDTOfilled);
 			
 			}
 		
@@ -269,7 +273,7 @@ public class Utility {
 		
 	}
 	
-	
+
 	/***
 	 * Metodo que genera un codigo unico haciendo uso del momento exacto de su creacion.
 	 * 

@@ -29,10 +29,14 @@ public class CategoryService implements ICategoryService {
 
 
 	@Override
-	public Set<Category> findAllById(String categoryName) {
+	public Set<Category> findAllById(String categoryName) throws Exception {
 
 		Set<Category> category=iCategoryRepository.findAllByName(categoryName);
 		log.info("category: {}",category);
+		
+		if(category.isEmpty()==true) {
+			throw new Exception("No se encontro la categoria solicitada.");
+		}
 		
 		return category;
 	}

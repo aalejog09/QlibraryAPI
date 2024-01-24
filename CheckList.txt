@@ -1,0 +1,33 @@
+Digitalizar todos los libros de una biblioteca.
+Condiciones a cumplir:
+
+
+● Los usuarios del sistema serán del personal de la biblioteca que deben
+registrarse con un nombre, un correo y una contraseña (no es necesario
+validar cuenta, pero el usuario debe recibir un correo de confirmación).                   			(LISTO)
+
+
+● Solo usuarios registrados pueden registrar nuevos libros y autores de libros                		(LISTO)
+
+
+● Los libros pueden tener múltiples autores. //agregar author a libro.                      		(LISTO)
+
+
+● Los libros pueden tener múltiples categorías. // agregar categoria a libro. 						(LISTO)
+
+
+● Cualquier usuario (registrado o anónimo) puede consultar los libros. 								(LISTO)
+
+
+● Cualquier usuario (registrado o anónimo) puede consultar todos los libros de una categoría   		(LISTO)
+
+
+● Cualquier usuario (registrado o anónimo) puede consultar los datos de un autor. 					(LISTO)
+
+
+● Cualquier usuario (registrado o anónimo) puede consultar todos los libros de 						(FALTA)
+un autor 
+
+● La solución debe permitir generar un excel de reporte donde indique: Total de  					(FALTA)
+libros, total de autores, total de categorías, total de libros por cada categoría
+de libro.

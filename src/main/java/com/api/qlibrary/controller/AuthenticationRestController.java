@@ -2,6 +2,7 @@ package com.api.qlibrary.controller;
 
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,7 +74,7 @@ public class AuthenticationRestController {
 		if(userDetails!=null) {
 			String token = this.jwtUtils.generateToken(userDetails);
 			Appuser userActive = this.appuserService.getAppUserByUsername(userDetails.getUsername());
-			
+			userActive.setLastEntryDate(new Date());
 			logger.debug("usuario identificado : {}", userActive);
 			userResponse.put("Username", userActive.getUsername());
 			userResponse.put("email", userActive.getEmail());
