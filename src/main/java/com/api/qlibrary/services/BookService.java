@@ -54,7 +54,7 @@ public class BookService implements IBookService {
 
 	@Autowired
 	private IAuthorService iAuthorService;
-
+	
 	@Autowired
 	private ICategoryService iCategoryService;
 
@@ -286,6 +286,28 @@ public class BookService implements IBookService {
 	}
 	
 	
+	@Override
+	public List<BookResponseDTO> getBookInfoByAuthor(BookConsultDTO bookDTO) throws Exception {
+		
+		Author author=iAuthorService.getAuthorByCode(bookDTO.getCode());
+		List<BookResponseDTO> bookListDTO = new ArrayList<BookResponseDTO>();
+		if(author!=null) {
+			
+			List<Book> existBook = bookRepository.findByAuthorsId(author.getId());
+			log.info("book: {}",existBook);
+			if (existBook.isEmpty()) {
+				throw new Exception("No se encuentra la informacion solicitada.");
+			}
+			
+			bookListDTO= mapBookListToDto(existBook);
+			
+		}
+		
+		
+		return bookListDTO;
+	}
+	
+	
 	public List<BookResponseDTO> mapBookListToDto(List<Book> BookList) throws ParseException {
 		
 		List<BookResponseDTO> bookListDTO = new ArrayList<BookResponseDTO>();
@@ -300,30 +322,11 @@ public class BookService implements IBookService {
 		return bookListDTO;
 		
 	}
+
+	
 	
 	
 
-//	/***
-//	 * Metodo para mapear una lista de datos de autor
-//	 * @param authorDTOs
-//	 * @param authorDTO
-//	 * @param book
-//	 * @return lista con data publica.
-//	 * @throws ParseException
-//	 */
-//	public List<AuthorDTO> mapAuthorDtoList(List<AuthorDTO> authorDTOs,  Book book) throws ParseException {
-//		Set<Author> authors = book.getAuthors();
-//		
-//		for (Author author : authors) {
-//			AuthorDTO authorDTOfilled= new AuthorDTO();
-//			
-//			authorDTOfilled= mapAuthorToAuthorDTO(author, authorDTOfilled);
-//			
-//			authorDTOs.add(authorDTOfilled);
-//			}
-//		return authorDTOs;
-//		
-//	}
 	
 
 }

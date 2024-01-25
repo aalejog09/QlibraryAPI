@@ -50,14 +50,13 @@ public class AppuserRestController {
 	@PostMapping(value="/create")
 	public ResponseEntity<?> createAppUser(@RequestBody @Valid AppUserCreateDTO appUser) throws Exception {
 		log.info("data recibida: {}",appUser.toString());
+		Map<String,Object> response = new HashMap<String,Object>();
 		try {
 			AppuserDTO userCreated = appuserServiceInterface.createAppUser(appUser);
 			log.info("Creado usuario rest: {}",appUser);
 			if (userCreated == null ) {
-				//return new ResponseEntity<>(claim, HttpStatus.UNAUTHORIZED);
 				throw new ObjectNotFoundException(null, null);
 			}
-			Map<String,Object> response = new HashMap<String,Object>();
 			response.put("status","OK");
 			response.put("message","Usuario creado exitosamente. Verifique el correo electronico proporcionado para conocer su contraseña.");
 			response.put("userCreated", appUser);
@@ -66,7 +65,9 @@ public class AppuserRestController {
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_ACCEPTABLE);  //throw new ObjectNotFoundException(null, null); 
+			response.put("status","Error");
+			response.put("message",e.getMessage());
+			return new ResponseEntity<>(response,HttpStatus.NOT_ACCEPTABLE);  //throw new ObjectNotFoundException(null, null); 
 		}
 	}
 

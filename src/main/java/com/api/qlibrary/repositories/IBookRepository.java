@@ -24,4 +24,6 @@ public interface IBookRepository extends JpaRepository< Book, Integer >{
 	public List<Book> findAllByCategories(String id);
 	
 	public List<Book> findByCategoriesId(Integer categoryId);
+
+	public List<Book> findByAuthorsId(Integer authorsId);
 }

@@ -104,7 +104,6 @@ public class AuthorService implements IAuthorService {
 	
 	
 	
-	
 	public Author mapAuthordtoToAutor(Author createdAuthor, AuthorDTO authorDTO) throws Exception {
 		createdAuthor.setName(authorDTO.getName().toUpperCase());
 		createdAuthor.setLastname(authorDTO.getLastname().toUpperCase());
@@ -157,7 +156,7 @@ public class AuthorService implements IAuthorService {
 			log.info("autor  existe: {}",author);
 			return author;
 		}
-		throw new Exception("No se encuentro el autor");
+		throw new Exception("No se encuentra el autor solicitado");
 	}
 
 	@Override
@@ -166,7 +165,7 @@ public class AuthorService implements IAuthorService {
 		Set<Author> author=iAuthorRepository.findAllByCode(authorCode);
 		
 		if(author.isEmpty()==true) {
-			throw new Exception("No se encontro el autor solicitado.");
+			throw new Exception("No se encuentra el autor solicitado.");
 		}
 		
 		

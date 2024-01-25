@@ -40,4 +40,7 @@ public interface IBookService {
 
 	public List<BookResponseDTO> getBookInfoByCategory(BookConsultDTO bookDTO) throws Exception;
 
+
+	public List<BookResponseDTO> getBookInfoByAuthor(BookConsultDTO bookDTO)throws Exception;
+
 }

@@ -75,9 +75,8 @@ public class BookRestController {
 	
 	/**
 	 * Método de controlador que llama servicio que consulta todos los libros registrados.
-	 * @param AuthorDTO
 	 * 
-	 * @return Author
+	 * @return bookList
 	 * @throws Exception
 	 */
 	@GetMapping(value="/consult/listAll")
@@ -191,6 +190,32 @@ public class BookRestController {
 			List<BookResponseDTO> book = bookServiceinterface.getBookInfoByCategory(bookDTO);
 			log.info("book: {}",book);
 			response.put("book", book);
+			
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			response.put("status", "Error");
+			response.put("message", "Ocurrio un error al consultar el libro.");
+			response.put("exception", e.getMessage());
+			return new ResponseEntity<>( response,HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
+	/**
+	 * Método de controlador que llama servicio que consultar un libro por su codigo.
+	 * @param BookConsultDTO
+	 * 
+	 * @return Author
+	 * @throws Exception
+	 */
+	@PostMapping(value="/consult/listByAuthorId")
+	public ResponseEntity<?> getAllByAuthorId(@RequestBody BookConsultDTO bookDTO) throws Exception {
+		log.info("Consultando la informacion del libro con el AuthorId: {}",bookDTO);
+		Map<String,Object> response = new HashMap<String,Object>();
+		try {
+			List<BookResponseDTO> bookList = bookServiceinterface.getBookInfoByAuthor(bookDTO);
+			log.info("book: {}",bookList);
+			response.put("bookList", bookList);
 			
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
