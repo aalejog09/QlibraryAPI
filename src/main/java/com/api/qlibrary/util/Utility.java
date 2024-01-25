@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.api.qlibrary.auxiliar.author.AuthorDTO;
-import com.api.qlibrary.auxiliar.book.BookResponseDTO;
 import com.api.qlibrary.auxiliar.category.CategoryDTO;
 import com.api.qlibrary.models.Appuser;
 import com.api.qlibrary.models.Author;

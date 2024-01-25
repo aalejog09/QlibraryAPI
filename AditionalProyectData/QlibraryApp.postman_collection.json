@@ -1,0 +1,467 @@
+{
+	"info": {
+		"_postman_id": "7bb8b458-13ad-4c7f-912a-2562e3f09e9a",
+		"name": "QlibraryApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8397244",
+		"_collection_link": "https://restless-crescent-73327.postman.co/workspace/Avalon_Team~daa6a35d-5817-4843-bcb4-718c98a6100b/collection/8397244-7bb8b458-13ad-4c7f-912a-2562e3f09e9a?action=share&source=collection_link&creator=8397244"
+	},
+	"item": [
+		{
+			"name": "authorization",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"1234567\",\r\n  \"username\": \"admin\"\r\n}\r\n\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7979/qlibray/api/v1/auth/requestToken",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7979",
+					"path": [
+						"qlibray",
+						"api",
+						"v1",
+						"auth",
+						"requestToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "email/sender",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n  \"message\": \"Saludos, \\n Esto es un correo de notificacion. \\n Se le informa que sus datos de acceso a la aplicacion son: \\n Usuario:admin \\n codigo de acceso:123456 \\n \\n Saludos cordiales,\",\r\n  \"subject\": \"Notificacion de acceso- QlibraryApp\",\r\n  \"toUser\": [\r\n    \"aalejog09@gmail.com\"\r\n  ]\r\n}\r\n\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7979/qlibray/api/v1/email/sendMessage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7979",
+					"path": [
+						"qlibray",
+						"api",
+						"v1",
+						"email",
+						"sendMessage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createAppuser",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n  \"email\": \"aalejog09@a.com\",\r\n  \"firstname\": \"Andres\",\r\n  \"lastname\": \"Alejo\",\r\n  \"identificationCode\": \"aaaa\",\r\n  \"username\": \"aalejo\"\r\n}\r\n\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7979/qlibray/api/v1/user/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7979",
+					"path": [
+						"qlibray",
+						"api",
+						"v1",
+						"user",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createAuthor",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"birthday\": \"21-03-1972\",\r\n  \"country\": \"ITALIA\",\r\n  \"lastname\": \"Gonzalo\",\r\n  \"name\": \"Di pascualo\",\r\n  \"code\":\"\"\r\n}\r\n\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7979/qlibray/api/v1/author/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7979",
+					"path": [
+						"qlibray",
+						"api",
+						"v1",
+						"author",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "consultAuthorData",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n  \"code\": \"23012024233546\"\r\n}\r\n\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7979/qlibray/api/v1/author/consult/getInfo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7979",
+					"path": [
+						"qlibray",
+						"api",
+						"v1",
+						"author",
+						"consult",
+						"getInfo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createBook",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcwNjA4MjcxMCwiaWF0IjoxNzA2MDQ2NzEwfQ.Oi83PT2jVSBrop_FzuIX3JFDICM8Fnz-KUEg3DDoXHE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"authorCode\": \"22012024205309\",\r\n  \"categoryName\": \"POLITICA\",\r\n  \"code\": \"HIS004\",\r\n  \"publicationDate\": \"20-01-1995\",\r\n  \"publisher\": \"Publication books \",\r\n  \"title\": \"Venezuela de ayer\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7979/qlibray/api/v1/book/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7979",
+					"path": [
+						"qlibray",
+						"api",
+						"v1",
+						"book",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addCategoryToBook",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcwNjA4MjcxMCwiaWF0IjoxNzA2MDQ2NzEwfQ.Oi83PT2jVSBrop_FzuIX3JFDICM8Fnz-KUEg3DDoXHE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"code\": \"HIS004\",\r\n  \"categoryName\": \"MATEMATICA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7979/qlibray/api/v1/book/addCategory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7979",
+					"path": [
+						"qlibray",
+						"api",
+						"v1",
+						"book",
+						"addCategory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addAuthorToBook",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcwNjA4MjcxMCwiaWF0IjoxNzA2MDQ2NzEwfQ.Oi83PT2jVSBrop_FzuIX3JFDICM8Fnz-KUEg3DDoXHE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"code\": \"HIS002\",\r\n  \"authorCode\": \"21012024181615\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7979/qlibray/api/v1/book/addAuthor",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7979",
+					"path": [
+						"qlibray",
+						"api",
+						"v1",
+						"book",
+						"addAuthor"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "consultbookData",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"code\": \"HIS002\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7979/qlibray/api/v1/book/consult/getInfo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7979",
+					"path": [
+						"qlibray",
+						"api",
+						"v1",
+						"book",
+						"consult",
+						"getInfo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllByCategoryId",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"code\": \"7\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7979/qlibray/api/v1/book/consult/listByCategoryId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7979",
+					"path": [
+						"qlibray",
+						"api",
+						"v1",
+						"book",
+						"consult",
+						"listByCategoryId"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllByAuthorId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcwNjA4MjcxMCwiaWF0IjoxNzA2MDQ2NzEwfQ.Oi83PT2jVSBrop_FzuIX3JFDICM8Fnz-KUEg3DDoXHE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"code\": \"21012024182706\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7979/qlibray/api/v1/book/consult/listByAuthorId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7979",
+					"path": [
+						"qlibray",
+						"api",
+						"v1",
+						"book",
+						"consult",
+						"listByAuthorId"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listAllBooks",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7979/qlibray/api/v1/book/consult/listAll",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7979",
+					"path": [
+						"qlibray",
+						"api",
+						"v1",
+						"book",
+						"consult",
+						"listAll"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
