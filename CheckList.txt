@@ -25,7 +25,7 @@ validar cuenta, pero el usuario debe recibir un correo de confirmación).       
 ● Cualquier usuario (registrado o anónimo) puede consultar los datos de un autor. 					(LISTO)
 
 
-● Cualquier usuario (registrado o anónimo) puede consultar todos los libros de 						(FALTA)
+● Cualquier usuario (registrado o anónimo) puede consultar todos los libros de 						(LISTO)
 un autor 
 
 ● La solución debe permitir generar un excel de reporte donde indique: Total de  					(FALTA)
