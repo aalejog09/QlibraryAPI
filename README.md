@@ -1,29 +1,75 @@
 # QlibraryAPI
 API para digitalizar todos los libros de una biblioteca.
 
-	Se  desarrollara un API para cubrir la siguiente necesidad de digitalizar todos los libros de una biblioteca.
+	Se  desarrollara un API para cubrir la  necesidad de digitalizar todos los libros de una biblioteca.
  
-	Condiciones a cumplir:
+
+
+* Los usuarios del sistema seran del personal de la biblioteca que deben
+registrarse con un nombre, un correo y una contraseña (no es necesario
+validar cuenta, pero el usuario debe recibir un correo de confirmacion).     
+
+	Servicios asociados:
+
+	1- authorization (usuario: admin ; clave: 1234567)
+	2-  createAppuser           			
+
+* Solo usuarios registrados pueden registrar nuevos libros y autores de libros            .
+
+	Servicios asociados:
+
+	1- createAuthor
+	2- createBook
+	3- listAllCategories
+
+* Los libros pueden tener multiples autores. //agregar author a libro.                      		
+		
+	Servicios asociados:
 	
-		● Los usuarios del sistema serán del personal de la biblioteca que deben registrarse con un nombre, un correo y una contraseña 
-		  (no es necesario	validar cuenta, pero el usuario debe recibir un correo de confirmación).
+	1-addAuthorToBook
 
-		● Solo usuarios registrados pueden registrar nuevos libros y autores de libros
-		
-		● Los libros pueden tener múltiples autores.
-		
-		● Los libros pueden tener múltiples categorías.
-		
-		● Cualquier usuario (registrado o anónimo) puede consultar los libros.
-		
-		● Cualquier usuario (registrado o anónimo) puede consultar todos los libros de un autor.
+* Los libros pueden tener multiples categorias. // agregar categoria a libro. 						
 
-		● Cualquier usuario (registrado o anónimo) puede consultar todos los libros de una categoría
-		
-		● Cualquier usuario (registrado o anónimo) puede consultar los datos de un autor.
-		
-		● La solución debe permitir generar un excel de reporte donde indique: Total de libros, total de autores, 
-		total de categorías, total de libros por cada categoría de libro.
+	Servicios asociados:
+	
+	1-addCategoryToBook
+
+* Cualquier usuario (registrado o anonimo) puede consultar los libros. 			
+
+	Servicios asociados: 
+
+	1- listAllBooks				
+
+* Cualquier usuario (registrado o anonimo) puede consultar todos los libros de una categoria  
+	
+	Servicios asociados: 
+
+	1-getAllByCategoryId
+
+*Cualquier usuario (registrado o anonimo) puede consultar los datos de un autor. 					
+	
+	Servicio asociado:
+
+	1-consultAuthorData
+
+* Cualquier usuario (registrado o anonimo) puede consultar todos los libros de 						
+un autor 
+
+	Servicio asociado: 
+
+	1- getAllByAuthorId
+
+* La soluciÃ³n debe permitir generar un excel de reporte donde indique: Total de  					
+libros, total de autores, total de categorias, total de libros por cada categoria
+de libro.
+
+	1- listAllCategories
+	2- totalBooksByCategory
+	3- totalBooksByAuthor
+	4- GenerateExcelReport (interno: getTotalBooks)
+
+
+
 
 
 
