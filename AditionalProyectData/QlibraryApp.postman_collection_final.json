@@ -462,6 +462,112 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "totalBooksByCategory",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7979/qlibray/api/v1/book/consult/totalByCategory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7979",
+					"path": [
+						"qlibray",
+						"api",
+						"v1",
+						"book",
+						"consult",
+						"totalByCategory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "totalBooksByAuthor",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7979/qlibray/api/v1/book/consult/totalByAuthor",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7979",
+					"path": [
+						"qlibray",
+						"api",
+						"v1",
+						"book",
+						"consult",
+						"totalByAuthor"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "totalBooksByAuthor Copy",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7979/qlibray/api/v1/book/consult/download/xlsx",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7979",
+					"path": [
+						"qlibray",
+						"api",
+						"v1",
+						"book",
+						"consult",
+						"download",
+						"xlsx"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
