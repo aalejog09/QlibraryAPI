@@ -91,7 +91,6 @@ public class AppuserService implements IAppuserService {
 				&& checkEmailString(appuserData.getEmail()) 
 				&&  checkUsernameString(appuserData.getUsername() )) {
 			
-				
 			
 			//instancia del modelo user.
 			Appuser appuser = new Appuser();
@@ -103,8 +102,16 @@ public class AppuserService implements IAppuserService {
 			
 			try {
 				//guardar usuario.
+				
+				
+				String newPassword= utility.passwordGenerator();
+				log.info("Nueva contraseña generada",newPassword);
+				
+				String encodedPassword = bCryptPasswordEncoder.encode(newPassword);
+				appuser.setAccessCode(encodedPassword);			
 				appuserRepository.save(appuser);
-				log.debug("usuario creado: {}", appuser);
+				log.info("usuario creado: {}", appuser);
+				
 				
 				//mapear usuario.
 				appuserDTO= mapAppuserToDTO(appuser,appuserDTO);
@@ -116,7 +123,7 @@ public class AppuserService implements IAppuserService {
 						Constants.USER_CREATED_NOTIFICATION ,
 						Constants.USER_CREATED
 						+"\n User: "+appuser.getUsername()
-						+" \n clave: "+appuser.getAccessCode()+"\n"+
+						+" \n clave: "+newPassword+"\n"+
 						Constants.EMAIL_FOOTER);
 				log.debug("enviado correo electronico de notificacion al administrador del sistema..");
 				iEmailService.sendEmail("aalejog09@gmail.com", Constants.USER_CREATED_NOTIFICATION, "Se ha creado el usuario: "+appuser.getUsername()+" para la aplicacion Qlibrary."+Constants.EMAIL_FOOTER);
@@ -209,11 +216,6 @@ public class AppuserService implements IAppuserService {
 		appuser.setFirstname(appuserData.getFirstname());
 		appuser.setLastname(appuserData.getLastname());
 		appuser.setEmail(appuserData.getEmail());
-		
-		String newPassword= utility.passwordGenerator();
-		String encodedPassword = bCryptPasswordEncoder.encode(newPassword);
-		
-		appuser.setAccessCode(encodedPassword);	
 		appuser.setCreationDate(new Date());
 		appuser.setLastEntryDate(null);
 		Set<Role> role = roleService.getRoleById(2);
