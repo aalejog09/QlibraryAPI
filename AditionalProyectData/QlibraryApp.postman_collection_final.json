@@ -542,7 +542,7 @@
 			"response": []
 		},
 		{
-			"name": "totalBooksByAuthor Copy",
+			"name": "GenerateExcelReport",
 			"request": {
 				"auth": {
 					"type": "noauth"
