@@ -2,6 +2,14 @@ package com.api.qlibrary.auxiliar.appUser;
 
 import lombok.Data;
 
+/***
+ * 
+ * Clase auxiliar para representar atributos  publicos de un usuario.
+ * 
+ * 
+ * @author AAlejo
+ *
+ */
 @Data
 public class AppuserDTO {
 	

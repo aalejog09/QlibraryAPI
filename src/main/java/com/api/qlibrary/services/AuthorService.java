@@ -1,6 +1,7 @@
 package com.api.qlibrary.services;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -53,7 +54,7 @@ public class AuthorService implements IAuthorService {
 	 * Metodo ubicar un Autor en el sistema por su codigo.
 	 * 
 	 * @param authorCode
-	 * @return Author
+	 * @return AuthorDTO
 	 */
 	@Override
 	public AuthorDTO getAuthorDataByAuthorCode(String authorCode) throws Exception {
@@ -75,15 +76,15 @@ public class AuthorService implements IAuthorService {
 	 * Metodo crear un Autor en el sistema.
 	 * 
 	 * @param authorDTO
-	 * @return Author
+	 * @return AuthorDTO
 	 */
 	@Override
 	public AuthorDTO createAuthor(@Valid AuthorDTO authorDTO) throws Exception {
 		
 		boolean checkExistingAutor= existAuthorByNameAndLastnameAndCountry(authorDTO);
-		log.info("autor ya existe: {}",checkExistingAutor);
+		log.debug("autor ya existe: {}",checkExistingAutor);
 		if(checkExistingAutor==true) {
-			log.info("autor ya existe: {}",authorDTO);
+			log.debug("autor ya existe: {}",authorDTO);
 			throw new Exception("El autor ya se encuentra registrado");
 		}
 		
@@ -103,7 +104,12 @@ public class AuthorService implements IAuthorService {
 	}
 	
 	
-	
+	/***
+	 * Metodo utilitario para mapear los datos de un <Strong> AuthorDTO </Strong> a un <Strong> Author  </Strong>
+	 * @param AuthorDTO
+	 * @param Author
+	 * @return Author
+	 */
 	public Author mapAuthordtoToAutor(Author createdAuthor, AuthorDTO authorDTO) throws Exception {
 		createdAuthor.setName(authorDTO.getName().toUpperCase());
 		createdAuthor.setLastname(authorDTO.getLastname().toUpperCase());
@@ -130,13 +136,16 @@ public class AuthorService implements IAuthorService {
 	public boolean validateAuthor(String authorCode) {
 		
 		Author author=iAuthorRepository.getAuthorDataByCode(authorCode);
-		log.info("author:{}",author);
+		log.debug("author:{}",author);
 		if(author!=null) {
 			return true;
 		}
 		return false;
 	}
 
+	/***
+	 * Metodo implementado para validar la existencia de un autor.
+	 */
 	@Override
 	public boolean existAuthorByNameAndLastnameAndCountry(@Valid AuthorDTO authorDTO) {
 		
@@ -147,18 +156,24 @@ public class AuthorService implements IAuthorService {
 		return false;
 	}
 
+	/***
+	 * Metodo que implementado para validar la exitencia de un autor.
+	 */
 	@Override
 	public Author getAuthorByCode(@Valid String authorCode) throws Exception {
 
 		Author author=iAuthorRepository.getAuthorDataByCode(authorCode);
 		
 		if (author!=null) {
-			log.info("autor  existe: {}",author);
+			log.debug("autor  existe: {}",author);
 			return author;
 		}
 		throw new Exception("No se encuentra el autor solicitado");
 	}
 
+	/***
+	 * Metodo que implementado para validar la exitencia de  autores.
+	 */
 	@Override
 	public Set<Author> findAllById(String authorCode) throws Exception {
 
@@ -171,5 +186,26 @@ public class AuthorService implements IAuthorService {
 		
 		return author;
 	}
+
+	/***
+	 * Metodo que implementado para validar la exitencia de  autores.
+	 */
+	@Override
+	public List<Author> findAll() {
+		List<Author>  authorList=iAuthorRepository.findAll();
+		return authorList;
+	}
+	
+	
+	/***
+	 * Metodo que implementado para validar la exitencia de  autores.
+	 */
+	@Override
+	public Long getTotalAuthors() {
+		Long totalAuthosrs=iAuthorRepository.count();;
+		return totalAuthosrs;
+	}
+	
+	
 	
 }

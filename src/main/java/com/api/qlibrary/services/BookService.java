@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import com.api.qlibrary.auxiliar.author.AuthorDTO;
 import com.api.qlibrary.auxiliar.book.AuthorBookDTO;
+import com.api.qlibrary.auxiliar.book.BookByAuthorDTO;
+import com.api.qlibrary.auxiliar.book.BookByCategoryDTO;
 import com.api.qlibrary.auxiliar.book.BookConsultDTO;
 import com.api.qlibrary.auxiliar.book.BookResponseDTO;
 import com.api.qlibrary.auxiliar.book.CategoryBookDTO;
@@ -96,7 +98,7 @@ public class BookService implements IBookService {
 			return createBookDTO;
 
 		}
-		log.info("Libro ya existe: {}", createBookDTO);
+		log.debug("Libro ya existe: {}", createBookDTO);
 		throw new Exception("El libro ya se encuentra registrado");
 
 	}
@@ -124,7 +126,7 @@ public class BookService implements IBookService {
 
 			// Consultar la informacion de la data del libro registrada en la base de datos
 			List<Book> lista = bookRepository.findAllByOrderByCreationDateDesc();
-			log.info("Lista de libros: {}", lista);
+			log.debug("Lista de libros: {}", lista);
 
 			// Instaciar un DTO para mostrar data publica de los libros.
 			List<BookResponseDTO> bookDTOs = new ArrayList<>();
@@ -134,7 +136,7 @@ public class BookService implements IBookService {
 			for (Book book : lista) {
 				// instanciar el objeto nuevo.
 				BookResponseDTO bookDTO = new BookResponseDTO();
-				log.info("Book : {}", book);
+				log.debug("Book : {}", book);
 
 				bookDTO = mapBookToDTO(book, bookDTO);
 				bookDTOs.add(bookDTO);
@@ -185,7 +187,9 @@ public class BookService implements IBookService {
 
 	}
 	
-	
+	/**
+	 * Metodo implementado para agregar una categoria a un libro.
+	 */
 	public BookResponseDTO addCategoryToBook(CategoryBookDTO data) throws Exception {
 		
 			Set<Category> newCategory = new HashSet<Category>();
@@ -199,7 +203,7 @@ public class BookService implements IBookService {
 			newCategory.addAll(function);
 			book.setCategories(newCategory);
 			bookRepository.save(book);
-			log.info("rol modificado: {}", book);
+			log.debug("rol modificado: {}", book);
 			
 			BookResponseDTO bookDTO = new BookResponseDTO();
 			bookDTO= mapBookToDTO(book, bookDTO);
@@ -208,6 +212,9 @@ public class BookService implements IBookService {
 		
 	}
 	
+	/**
+	 * Metodo implementado para agregar un autor a un libro.
+	 */
 	@Override
 	public BookResponseDTO addAuthorToBook(@Valid AuthorBookDTO data) throws Exception {
 
@@ -222,7 +229,7 @@ public class BookService implements IBookService {
 		newAuthor.addAll(author);
 		book.setAuthors(newAuthor);
 		bookRepository.save(book);
-		log.info("rol modificado: {}", book);
+		log.debug("rol modificado: {}", book);
 		
 		BookResponseDTO bookDTO = new BookResponseDTO();
 		bookDTO= mapBookToDTO(book, bookDTO);
@@ -231,7 +238,12 @@ public class BookService implements IBookService {
 		
 	}
 	
-	
+	/***
+	 * Metodo implementado para ubicar un libro por su codigo.
+	 * @param code
+	 * @return
+	 * @throws Exception
+	 */
 	private Book findBookByCode(String code) throws Exception {
 
 		Book existBook = bookRepository.findByCode(code);
@@ -253,7 +265,7 @@ public class BookService implements IBookService {
 	public BookResponseDTO getBookInfoByCode(BookConsultDTO bookDTO) throws Exception {
 		
 		Book existBook = bookRepository.findByCode(bookDTO.getCode());
-		log.info("book: {}",existBook);
+		log.debug("book: {}",existBook);
 		if (existBook==null) {
 			throw new Exception("No se encuentra el libro solicitado.");
 		}
@@ -273,7 +285,7 @@ public class BookService implements IBookService {
 	@Override
 	public List<BookResponseDTO> getBookInfoByCategory(BookConsultDTO bookDTO) throws Exception {
 		List<Book> existBook = bookRepository.findByCategoriesId(Integer.valueOf(bookDTO.getCode()));
-		log.info("book: {}",existBook);
+		log.debug("book: {}",existBook);
 		if (existBook.isEmpty()) {
 			throw new Exception("No se encuentra la informacion solicitada.");
 		}
@@ -285,7 +297,9 @@ public class BookService implements IBookService {
 		return bookListDTO;
 	}
 	
-	
+	/***
+	 * Metodo implementado para obtener la lista de libros por su author.
+	 */
 	@Override
 	public List<BookResponseDTO> getBookInfoByAuthor(BookConsultDTO bookDTO) throws Exception {
 		
@@ -294,11 +308,11 @@ public class BookService implements IBookService {
 		if(author!=null) {
 			
 			List<Book> existBook = bookRepository.findByAuthorsId(author.getId());
-			log.info("book: {}",existBook);
+			log.debug("book: {}",existBook);
 			if (existBook.isEmpty()) {
 				throw new Exception("No se encuentra la informacion solicitada.");
 			}
-			
+				
 			bookListDTO= mapBookListToDto(existBook);
 			
 		}
@@ -307,7 +321,12 @@ public class BookService implements IBookService {
 		return bookListDTO;
 	}
 	
-	
+	/***
+	 * Metodo implementado para mapear una lista de libros a un DTO publico.
+	 * @param BookList
+	 * @return List BookResponseDTO
+	 * @throws ParseException
+	 */
 	public List<BookResponseDTO> mapBookListToDto(List<Book> BookList) throws ParseException {
 		
 		List<BookResponseDTO> bookListDTO = new ArrayList<BookResponseDTO>();
@@ -323,7 +342,62 @@ public class BookService implements IBookService {
 		
 	}
 
-	
+	/**
+	 * Metodo para obtener la cantidad de libros por categoria.
+	 */
+	@Override
+	public List<BookByCategoryDTO> countByCategory() {
+		
+		List<Category> categoryList = iCategoryService.findAll();
+		log.debug("categoryList: {}",categoryList);
+		List<BookByCategoryDTO>bookCategoryList = new ArrayList<BookByCategoryDTO>();
+		
+		for(Category category : categoryList) {
+			BookByCategoryDTO bookCatDTO= new BookByCategoryDTO();
+			Long totalBooks = bookRepository.countByCategoryName(category.getName());
+			
+			bookCatDTO.setCategoryName(category.getName());
+			bookCatDTO.setTotalBooks(totalBooks);
+			bookCategoryList.add(bookCatDTO);
+		}
+		
+		return bookCategoryList;
+	}
+
+	/***
+	 * Metodo implementado para obtener la cantidad de libros por autor.
+	 */
+	@Override
+	public List<BookByAuthorDTO> countByAuthor() {
+		
+		List<Author> authorList = iAuthorService.findAll();
+		log.debug("authorList: {}",authorList);
+		List<BookByAuthorDTO>bookAuthorList = new ArrayList<BookByAuthorDTO>();
+		
+		for(Author author : authorList) {
+			BookByAuthorDTO bookAuthorDTO= new BookByAuthorDTO();
+			Long totalBooks = bookRepository.countByAuthorCode(author.getCode());
+			
+			bookAuthorDTO.setAuthorCode(author.getCode() );
+			bookAuthorDTO.setAuthorName(author.getName().concat(" ").concat(author.getLastname()));
+			bookAuthorDTO.setTotalBooks(totalBooks);
+			bookAuthorList.add(bookAuthorDTO);
+		}
+		
+		return bookAuthorList;
+		
+	}
+
+	/***
+	 * Metodo implementado para obtener la cantidad totales de libros registrados.
+	 */
+	@Override
+	public Long getTotalBooks() {
+		
+		Long totalBooks = bookRepository.count();
+		return totalBooks;
+		
+	}
 	
 	
 

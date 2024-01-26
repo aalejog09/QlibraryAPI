@@ -1,5 +1,10 @@
 package com.api.qlibrary.util;
 
+/**
+ * Clase de constantes del sistema.
+ * @author AAlejo
+ *
+ */
 public class Constants {
 	
 	

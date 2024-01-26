@@ -5,6 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+
+
+/***
+ * 
+ * Clase auxiliar para representar atributos publicos de un correo.
+ * 
+ * @author AAlejo
+ *
+ */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

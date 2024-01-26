@@ -1,6 +1,8 @@
 package com.api.qlibrary.web.book;
 
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +10,10 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +23,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.qlibrary.auxiliar.book.AuthorBookDTO;
+import com.api.qlibrary.auxiliar.book.BookByAuthorDTO;
+import com.api.qlibrary.auxiliar.book.BookByCategoryDTO;
 import com.api.qlibrary.auxiliar.book.BookConsultDTO;
 import com.api.qlibrary.auxiliar.book.BookResponseDTO;
 import com.api.qlibrary.auxiliar.book.CategoryBookDTO;
 import com.api.qlibrary.auxiliar.book.CreateBookDTO;
+import com.api.qlibrary.services.ExcelReportGenerator;
 import com.api.qlibrary.services.interfaces.IBookService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * @author AAlejo
  * 
- * Controlador principal de acceso a la aplicacion. 
+ * Controlador de los servicios de libro.
  * */
 @Slf4j
 @RestController
@@ -44,6 +52,9 @@ public class BookRestController {
 	@Autowired
 	IBookService bookServiceinterface;
 	
+
+    @Autowired
+     ExcelReportGenerator excelReportGenerator;
 	
 	/**
 	 * Método de controlador que llama servicio para crear un libro.
@@ -226,8 +237,82 @@ public class BookRestController {
 		}
 	}
 	
+	/**
+	 * Método de controlador que llama servicio que consultar un libro por su codigo.
+	 * @param BookConsultDTO
+	 * 
+	 * @return Author
+	 * @throws Exception
+	 */
+	@GetMapping(value="/consult/totalByCategory")
+	public ResponseEntity<?> countTotalByCategory() throws Exception {
+		log.info("Consultando total de libros por nombre de categoria");
+		Map<String,Object> response = new HashMap<String,Object>();
+		try {
+			List<BookByCategoryDTO> totalBooks = bookServiceinterface.countByCategory();
+			log.info("book: {}",totalBooks);
+			response.put("bookList", totalBooks);
+			
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			response.put("status", "Error");
+			response.put("message", "Ocurrio un error al consultar el libro.");
+			response.put("exception", e.getMessage());
+			return new ResponseEntity<>( response,HttpStatus.NOT_FOUND);
+		}
+	}
 	
 	
 	
+	/**
+	 * Método de controlador que llama servicio que consultar un libro por su codigo.
+	 * @param BookConsultDTO
+	 * 
+	 * @return Author
+	 * @throws Exception
+	 */
+	@GetMapping(value="/consult/totalByAuthor")
+	public ResponseEntity<?> countTotalByAuthor() throws Exception {
+		log.info("Consultando total de libros por Author");
+		Map<String,Object> response = new HashMap<String,Object>();
+		try {
+			List<BookByAuthorDTO> totalBooks = bookServiceinterface.countByAuthor();
+			log.info("book: {}",totalBooks);
+			response.put("bookList", totalBooks);
+			
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			response.put("status", "Error");
+			response.put("message", "Ocurrio un error al consultar el libro.");
+			response.put("exception", e.getMessage());
+			return new ResponseEntity<>( response,HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
+    @GetMapping(value = "/consult/download/xlsx", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<ByteArrayResource> downloadReport() throws Exception {
+    	byte[] data = excelReportGenerator.generateReport();
+        ByteArrayResource resource = new ByteArrayResource(data);
+        HttpHeaders headers = new HttpHeaders();
+        
+     // Get the current date and time
+        LocalDateTime now = LocalDateTime.now();
+
+        // Format the date and time as YYYYMMDD_HHMMSS
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+        String formattedDateTime = now.format(formatter);
+
+        // Set the filename with the formatted date and time
+        String filename = "Libros_report_" + formattedDateTime + ".xlsx";
+        
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename="+filename);
+        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(resource);
+    }
+
     
 }

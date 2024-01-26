@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.api.qlibrary.models.Role;
 
 /**
- * Interfaz para el uso de los métodos de acceso a los datos por JPA/HIBERNATE de la clase Role
+ * Interfaz para el uso de los métodos de acceso a los datos por JpaRepository de la clase Role
  * @author AAlejo
  *
  */

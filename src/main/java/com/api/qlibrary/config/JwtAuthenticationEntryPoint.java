@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Clase de seguridad para filtrar las peticiones de autenticacion de usuario segun JWTAuth.
+ * 
  * @author AAlejo
  *
  */

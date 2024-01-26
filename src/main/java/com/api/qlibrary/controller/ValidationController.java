@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+
+/***
+ * Controlador de los servicios de validacion.
+ * @author AAlejo
+ *
+ */
 @RestControllerAdvice
 public class ValidationController {
 	

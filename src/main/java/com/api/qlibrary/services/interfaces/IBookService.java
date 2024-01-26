@@ -4,12 +4,21 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+
 import com.api.qlibrary.auxiliar.book.AuthorBookDTO;
+import com.api.qlibrary.auxiliar.book.BookByAuthorDTO;
+import com.api.qlibrary.auxiliar.book.BookByCategoryDTO;
 import com.api.qlibrary.auxiliar.book.BookConsultDTO;
 import com.api.qlibrary.auxiliar.book.BookResponseDTO;
 import com.api.qlibrary.auxiliar.book.CategoryBookDTO;
 import com.api.qlibrary.auxiliar.book.CreateBookDTO;
 
+
+/***
+ * Interface que implementa los servicios de Libro.
+ * @author AAlejo
+ *
+ */
 public interface IBookService {
 
 	
@@ -42,5 +51,13 @@ public interface IBookService {
 
 
 	public List<BookResponseDTO> getBookInfoByAuthor(BookConsultDTO bookDTO)throws Exception;
+	
+	
+	public List<BookByCategoryDTO> countByCategory();
+	
+	public List<BookByAuthorDTO> countByAuthor();
+
+
+	public Long getTotalBooks();
 
 }

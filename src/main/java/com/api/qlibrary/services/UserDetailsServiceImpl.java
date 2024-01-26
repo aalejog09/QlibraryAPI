@@ -63,7 +63,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
        //String encode= bcrypt.encode(password);
  	   boolean isPasswordMatches = bcrypt.matches(password, appuser.getAccessCode()); 
  	   
-       logger.info("isPasswordMatches: {}",isPasswordMatches);
+       logger.debug("isPasswordMatches: {}",isPasswordMatches);
  	   if(isPasswordMatches==true){
  		  //Mapear nuestra lista de Authority con la de spring security 
  	   		@SuppressWarnings("rawtypes")

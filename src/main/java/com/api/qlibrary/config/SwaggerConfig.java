@@ -22,7 +22,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
 /**
- * Clase de configuracion para exponer la documentacion del API
+ * Clase de configuracion para exponer la documentacion del API basado en Swagger.
  * 
  * @author AAlejo
  * */

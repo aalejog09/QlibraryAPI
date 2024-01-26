@@ -9,6 +9,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Data;
 
+/***
+ * 
+ * Clase auxiliar para representar atributos y metodos publicos de un usuario.
+ * 
+ * 
+ * @author AAlejo
+ *
+ */
 @SuppressWarnings("serial")
 @Data
 public class AppuserCurrentDTO implements UserDetails{

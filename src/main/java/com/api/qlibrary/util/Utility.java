@@ -30,91 +30,105 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Clase de métodos utilitarios de la aplicación.
- * @author LPinto
+ * @author Aalejo
  *
  */
 @Service
 @Slf4j
 public class Utility {
-	
+
 	/**
 	 * Variable que se usa para importar métodos de la libreria de LOGGER.
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(Utility.class);
-	
+
 	/**
 	 * Variable que se usa para importar métodos del servicio de usuarios.
 	 */
 	@Autowired
 	private IAppuserRepository appUserRepository;
-	
-		
+
+
 	/**
 	 * Método que retorna el usuario actual.
 	 * @return AppUser
 	 * @throws Exception
 	 */
 	public Appuser getActiveUser() {
-	   String  userNameActive = SecurityContextHolder.getContext().getAuthentication().getName() ; 
-		
-	//declaro usuario para buscar
+		String  userNameActive = SecurityContextHolder.getContext().getAuthentication().getName() ; 
+
+		//declaro usuario para buscar
 		logger.info("buscando usuario");
 		Appuser userActive = new Appuser();
-	try {
-		//ubico el usuario por nombre de usuario
-		userActive = this.appUserRepository.findByUsername(userNameActive);
-		logger.info("userActive : {}",userActive);
-		
+		try {
+			//ubico el usuario por nombre de usuario
+			userActive = this.appUserRepository.findByUsername(userNameActive);
+			logger.info("userActive : {}",userActive);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	return userActive;
+		return userActive;
 	}
-	
-	
+
+
+	/**
+	 * Metodo utilitario para generar una clave dinamica.
+	 * @return String
+	 * @throws ParseException
+	 */
 	public String passwordGenerator () throws ParseException {
 		logger.info("entrando en PasswordGenerator");
-	    
-	    String newPasswordGenerated=generateRandomPassword(8);
-	    
-	    return newPasswordGenerated;
-	}
-	
-	public  String generateRandomPassword(int len) throws ParseException{
-        // Rango ASCII – alfanumérico (0-9, a-z, A-Z)
-        final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        
-        SecureRandom random = new SecureRandom();
-        StringBuilder sb = new StringBuilder();
- 
-        // cada iteración del bucle elige aleatoriamente un carácter del dado
-        // rango ASCII y lo agrega a la instancia `StringBuilder`
- 
-        for (int i = 0; i < len; i++)
-        {
-            int randomIndex = random.nextInt(chars.length());
-            sb.append(chars.charAt(randomIndex));
-        }
 
-        return sb.toString();
-    }
-	
+		String newPasswordGenerated=generateRandomPassword(8);
+
+		return newPasswordGenerated;
+	}
+
+	/**
+	 * Metodo utilitario para generar una clave dinamica.
+	 * @return String
+	 * @throws ParseException
+	 */
+	public  String generateRandomPassword(int len) throws ParseException{
+		// Rango ASCII – alfanumérico (0-9, a-z, A-Z)
+		final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+		SecureRandom random = new SecureRandom();
+		StringBuilder sb = new StringBuilder();
+
+		// cada iteración del bucle elige aleatoriamente un carácter del dado
+		// rango ASCII y lo agrega a la instancia `StringBuilder`
+
+		for (int i = 0; i < len; i++)
+		{
+			int randomIndex = random.nextInt(chars.length());
+			sb.append(chars.charAt(randomIndex));
+		}
+
+		return sb.toString();
+	}
+	/**
+	 * Metodo utilitario para validar el Regex del email.
+	 * @return boolean
+	 * @throws ParseException
+	 */
 	public boolean validateEmailDomain(String email) {
 		boolean validated= false;
 		Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-	    Matcher matcher = pattern.matcher(email);
+		Matcher matcher = pattern.matcher(email);
 
-	    if (matcher.find() == true) {
-	       log.info("Format Valid");
-	        validated= true;
-	    } else {
-	    	log.info("Not Format Invalid");
-	    }
-		
+		if (matcher.find() == true) {
+			log.info("Format Valid");
+			validated= true;
+		} else {
+			log.info("Not Format Invalid");
+		}
+
 		return validated;
-		
+
 	}
-	
+
 	/**
 	 * Metodo para transformar una fecha tipo Date en una fecha String formato DD-MM-YYYY
 	 * @param date
@@ -142,8 +156,8 @@ public class Utility {
 		String dateFormated = dayString+"-"+monthString+"-"+year.toString();
 		return dateFormated;
 	}
-	
-	
+
+
 	/**
 	 * Metodo para transformar una fecha tipo Date en una fecha String formato DDMMYYYYHHMMSS
 	 * @param date
@@ -171,8 +185,8 @@ public class Utility {
 		String dateFormated = dayString+monthString+year.toString();
 		return dateFormated;
 	}
-	
-	
+
+
 	/**
 	 * Metodo que convierte una fecha tipo String a una fecha Date.
 	 * @param dateString
@@ -180,16 +194,12 @@ public class Utility {
 	 * @throws ParseException
 	 */
 	public Date StringToDateFormatter (String dateString) throws ParseException {
-		//logger.info("entrando en StringToDateFormatter con date: {}",dateString );
-//		dateString = StringDateFormatter(dateString);
-	    SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");  
-	   // logger.info("dateString: {}",dateString);
+		SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");  
 		Date dateFormated = formatter.parse(dateString);
-		logger.info("saliendo en StringToDateFormatter con date: {}",dateString );
 		return dateFormated;
 	}
-	
-	
+
+
 	/***
 	 * Metodo para mapear un objeto Author a otro AuthorDTO
 	 * @param author
@@ -198,18 +208,18 @@ public class Utility {
 	 * @throws ParseException
 	 */
 	public AuthorDTO mapAuthorToAuthorDTO(Author author, AuthorDTO authorDTO) throws ParseException {
-		
+
 		authorDTO.setName(author.getName());
 		authorDTO.setLastname(author.getLastname());
 		authorDTO.setCountry(author.getCountry());
 		authorDTO.setCode(author.getCode());
 		String authorBirthday = DateToStringFormatterDash(author.getBirthday());
 		authorDTO.setBirthday(authorBirthday);
-		
+
 		return authorDTO;
-		
+
 	}
-	
+
 	/***
 	 * Metodo para mapear una lista de datos de autor
 	 * @param authorDTOs
@@ -220,18 +230,18 @@ public class Utility {
 	 */
 	public List<AuthorDTO> mapAuthorDtoList(List<AuthorDTO> authorDTOs,  Book book) throws ParseException {
 		Set<Author> authors = book.getAuthors();
-		
+
 		for (Author author : authors) {
 			AuthorDTO authorDTOfilled= new AuthorDTO();
-			
+
 			authorDTOfilled= mapAuthorToAuthorDTO(author, authorDTOfilled);
-			
+
 			authorDTOs.add(authorDTOfilled);
-			}
+		}
 		return authorDTOs;
-		
+
 	}
-	
+
 	/***
 	 * Metodo para mapear la data de la categoria. 
 	 * @param category
@@ -240,13 +250,13 @@ public class Utility {
 	 * @throws ParseException
 	 */
 	public CategoryDTO mapCategoryToCategoryDTO(Category category, CategoryDTO categoryDTO) throws ParseException {
-		
+
 		categoryDTO.setName(category.getName());
-		
+
 		return categoryDTO;
-		
+
 	}
-	
+
 	/***
 	 * Metodo para mapear una lista de datos de categorias
 	 * @param categoryDTOs
@@ -257,20 +267,20 @@ public class Utility {
 	 */
 	public List<CategoryDTO> mapCategoryDtoList(List<CategoryDTO> categoryDTOs, Book book) throws ParseException {
 		Set<Category> categories = book.getCategories();
-		
+
 		for (Category category : categories) {
 			CategoryDTO categoryDTOfilled= new CategoryDTO();
-		
+
 			categoryDTOfilled= mapCategoryToCategoryDTO(category, categoryDTOfilled);
-			
+
 			categoryDTOs.add(categoryDTOfilled);
-			
-			}
-		
+
+		}
+
 		return categoryDTOs;
-		
+
 	}
-	
+
 
 	/***
 	 * Metodo que genera un codigo unico haciendo uso del momento exacto de su creacion.
@@ -280,18 +290,36 @@ public class Utility {
 	 * @throws Exception
 	 */
 	public String generatedUniqueCode() throws Exception {
-		
-		
+
+
 		String dateString=DateToStringFormatterNoDash(new Date());
-		   LocalTime horaActual = LocalTime.now();
-	        DateTimeFormatter formato = DateTimeFormatter.ofPattern("HHmmss");
-	        String horaFormateada = horaActual.format(formato);
+		LocalTime horaActual = LocalTime.now();
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("HHmmss");
+		String horaFormateada = horaActual.format(formato);
 		log.info("horaFormateada: {}",horaFormateada);
-		
+
 		String code=dateString+horaFormateada;
 		return code;
-		
+
 	}
-	
-	
+
+	/***
+	 * Metodo que genera un codigo unico haciendo uso del momento exacto de su creacion.
+	 * 
+	 * 
+	 * @return code
+	 * @throws Exception
+	 */
+	public String generatedReportCreation() throws Exception {
+
+
+		String dateString=DateToStringFormatterNoDash(new Date());
+		LocalTime horaActual = LocalTime.now();
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("HHmmss");
+		String horaFormateada = horaActual.format(formato);
+
+		String code=dateString+"_"+horaFormateada;
+		return code;
+
+	}
 }

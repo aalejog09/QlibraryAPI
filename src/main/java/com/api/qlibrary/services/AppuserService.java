@@ -22,7 +22,7 @@ import com.api.qlibrary.util.Utility;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Clase de métodos de servicios de usuarios.
+ * Clase de métodos de servicio de usuarios.
  * @author Aalejo
  *
  */
@@ -79,7 +79,7 @@ public class AppuserService implements IAppuserService {
 	 * @return Appuser
 	 */
 	public AppuserDTO createAppUser(AppUserCreateDTO appuserData) throws Exception {
-		log.info("usuario recibido: {}", appuserData);	
+		log.debug("usuario recibido: {}", appuserData);	
 		boolean emailDomainCheck= utility.validateEmailDomain(appuserData.getEmail());
 		
 		if(emailDomainCheck==false ) { 
@@ -104,13 +104,13 @@ public class AppuserService implements IAppuserService {
 			try {
 				//guardar usuario.
 				appuserRepository.save(appuser);
-				log.info("usuario creado: {}", appuser);
+				log.debug("usuario creado: {}", appuser);
 				
 				//mapear usuario.
 				appuserDTO= mapAppuserToDTO(appuser,appuserDTO);
 				
 				//enviar correos de notificacion.
-				log.info("enviado correo electronico de notificacion al usuario.");
+				log.debug("enviado correo electronico de notificacion al usuario.");
 				iEmailService.sendEmail(
 						appuser.getEmail(),
 						Constants.USER_CREATED_NOTIFICATION ,
@@ -118,9 +118,9 @@ public class AppuserService implements IAppuserService {
 						+"\n User: "+appuser.getUsername()
 						+" \n clave: "+appuser.getAccessCode()+"\n"+
 						Constants.EMAIL_FOOTER);
-				log.info("enviado correo electronico de notificacion al administrador del sistema..");
+				log.debug("enviado correo electronico de notificacion al administrador del sistema..");
 				iEmailService.sendEmail("aalejog09@gmail.com", Constants.USER_CREATED_NOTIFICATION, "Se ha creado el usuario: "+appuser.getUsername()+" para la aplicacion Qlibrary."+Constants.EMAIL_FOOTER);
-				log.info("Correos enviados exitosamente.");
+				log.debug("Correos enviados exitosamente.");
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new Exception("Ocurrio un error al intentar registrar al usuario"+e.getMessage());
@@ -178,6 +178,12 @@ public class AppuserService implements IAppuserService {
 		return true;
 	}
 	
+	/***
+	 * Metodo utilitario para mapear los datos de un <Strong> Appuser </Strong> a un <Strong> AppuserDTO </Strong>
+	 * @param appuser
+	 * @param appuserDTO
+	 * @return AppuserDTO
+	 */
 	public AppuserDTO mapAppuserToDTO(Appuser appuser, AppuserDTO appuserDTO) {
 		
 		appuserDTO.setEmail(appuser.getEmail());
@@ -189,6 +195,13 @@ public class AppuserService implements IAppuserService {
 		return appuserDTO;
 	}
 	
+	
+	/***
+	 * Metodo utilitario para mapear los datos de un <Strong> AppuserDTO </Strong> a un <Strong> Appuser  </Strong>
+	 * @param appuser
+	 * @param appuserDTO
+	 * @return AppuserDTO
+	 */
 	public Appuser mapAppuserdtoToAppuser( Appuser appuser, AppUserCreateDTO appuserData) throws ParseException {
 		
 		appuser.setIdentificationCode(appuserData.getIdentificationCode());

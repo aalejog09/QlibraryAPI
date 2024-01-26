@@ -49,9 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String host =request.getRemoteHost(); // Host del cliente
         
         logger.info("Acceso desde IP: {} y HOST: {}", ip,host);
-        //logger.debug("parameters: {}",request.getParameterNames());
         
-       // logger.debug("Bearer auth: {}",requestTokenHeader);
         if(requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")){
             jwtToken = requestTokenHeader.substring(7);
 

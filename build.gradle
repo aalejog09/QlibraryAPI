@@ -45,7 +45,8 @@ dependencies {
 	implementation 'com.diffplug.durian:durian:3.4.0'
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation 'org.springframework.security:spring-security-crypto:5.0.0.RELEASE'
-	
+	implementation 'org.apache.poi:poi:4.1.2'
+	implementation 'org.apache.poi:poi-ooxml:4.1.2'
 }
 
 

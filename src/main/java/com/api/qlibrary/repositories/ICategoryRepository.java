@@ -10,7 +10,7 @@ import com.api.qlibrary.models.Category;
 
 
 /**
- * Interfaz para el uso de los métodos de acceso a los datos por JPA/HIBERNATE de la clase Author
+ * Interfaz para el uso de los métodos de acceso a los datos por JpaRepository de la clase Category
  * @author Aalejo
  *
  */
@@ -31,8 +31,19 @@ public interface ICategoryRepository extends JpaRepository< Category , Integer >
 	 */
 	public Category findByName(String categoryName);
 	
+	/**
+	 * Metodo implementado para ubicar todas las categorias por su nombre.
+	 * @param categoryName
+	 * @return Set<Category>
+	 */
 	public Set<Category> findAllByName(String categoryName);
 
+	
+	/***
+	 * Metodo implementado para ubicar la data de la categoria por su nombre.
+	 * @param categoryName
+	 * @return Category
+	 */
 	public Category getCategoryDataByName(String categoryName);
 	
 	

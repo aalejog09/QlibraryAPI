@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * 
- * Clase persistente para identificar un rol dentro de la aplicación.
+ * Clase persistente para identificar un <Strong> Rol </Strong> dentro de la aplicación.
  *
  * @author AAlejo
  * 

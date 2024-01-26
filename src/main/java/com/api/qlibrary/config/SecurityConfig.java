@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.api.qlibrary.services.CurrentUserService;
 
 /**
- * Configuracion de accesos a la aplicacion
+ * Clase principal de configuracion de acceso a la aplicacion
  * @author AAlejo
  * */
 @SuppressWarnings("deprecation")
@@ -27,8 +27,6 @@ import com.api.qlibrary.services.CurrentUserService;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
    
-//	@Autowired
-//	private Environment env;
 	
 	@Autowired
     private CurrentUserService currentUserService;

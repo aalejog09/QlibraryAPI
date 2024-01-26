@@ -7,6 +7,14 @@ import com.api.qlibrary.auxiliar.category.CategoryDTO;
 
 import lombok.Data;
 
+
+/***
+ * 
+ * Clase auxiliar para representar atributos publicos de un libro.
+ * 
+ * @author AAlejo
+ *
+ */
 @Data
 public class BookDTO {
 	

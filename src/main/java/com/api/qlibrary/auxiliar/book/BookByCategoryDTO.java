@@ -2,6 +2,7 @@ package com.api.qlibrary.auxiliar.book;
 
 import lombok.Data;
 
+
 /***
  * 
  * Clase auxiliar para representar atributos publicos.
@@ -9,9 +10,10 @@ import lombok.Data;
  * @author AAlejo
  *
  */
-
 @Data
-public class BookConsultDTO {
+public class BookByCategoryDTO {
+	
+	String categoryName;
+	Long totalBooks;
 
-	String code;
 }

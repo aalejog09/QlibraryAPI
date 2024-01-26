@@ -1,13 +1,18 @@
 package com.api.qlibrary.services.interfaces;
 
-
-import java.io.File;
-
-import javax.mail.MessagingException;
-
+/**
+ * Interface que implkementa el servicio de email.
+ * @author AAlejo
+ *
+ */
 public interface IEmailService {
 
+	/**
+	 * Metodo que implementa el servicio de envio de correo.
+	 * @param toUser
+	 * @param subject
+	 * @param message
+	 */
     void sendEmail(String toUser, String subject, String message);
 
-    void sendEmailWithFile(String toUser, String subject, String message, File file) throws MessagingException;
 }

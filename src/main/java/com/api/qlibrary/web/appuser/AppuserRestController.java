@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * @author AAlejo
  * 
- * Controlador principal de acceso a la aplicacion. 
+ * Controlador de los servicios de usuario.
  * */
 @Slf4j
 @RestController

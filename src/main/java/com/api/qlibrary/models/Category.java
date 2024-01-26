@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * Clase persistente para identificar la entidad <Strong>Categoria</Strong> dentro de la aplicación..
- * @author LPinto
+ * @author AAlejo
  *
  */
 

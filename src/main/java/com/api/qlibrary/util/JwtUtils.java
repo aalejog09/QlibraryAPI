@@ -12,16 +12,19 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+/**
+ * Servicio de utilidad para el manejo de la autorizacion JWT otorgada al usuario
+ * @author AAlejo
+ *
+ */
 @Service
 public class JwtUtils {
 	
-	//private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
 	private String SECRET_KEY = "QlibraryApp";
 
     public String extractUsername(String token) {
     	
-    	//logger.info("Util token: "+ token);
         return extractClaim(token, Claims::getSubject);
     }
 
