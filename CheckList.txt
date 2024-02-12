@@ -2,32 +2,67 @@ Digitalizar todos los libros de una biblioteca.
 Condiciones a cumplir:
 
 
-â—� Los usuarios del sistema serÃ¡n del personal de la biblioteca que deben
-registrarse con un nombre, un correo y una contraseÃ±a (no es necesario
-validar cuenta, pero el usuario debe recibir un correo de confirmaciÃ³n).                   			(LISTO)
+* Los usuarios del sistema seran del personal de la biblioteca que deben
+registrarse con un nombre, un correo y una contraseña (no es necesario
+validar cuenta, pero el usuario debe recibir un correo de confirmacion).     
 
+	Servicios asociados:
 
-â—� Solo usuarios registrados pueden registrar nuevos libros y autores de libros                		(LISTO)
+	1- authorization (usuario: admin ; clave: 1234567)
+	2-  createAppuser           			
 
+* Solo usuarios registrados pueden registrar nuevos libros y autores de libros            .
 
-â—� Los libros pueden tener mÃºltiples autores. //agregar author a libro.                      		(LISTO)
+	Servicios asociados:
 
+	1- createAuthor
+	2- createBook
+	3- listAllCategories
 
-â—� Los libros pueden tener mÃºltiples categorÃ­as. // agregar categoria a libro. 						(LISTO)
+* Los libros pueden tener multiples autores. //agregar author a libro.                      		
+		
+	Servicios asociados:
+	
+	1-addAuthorToBook
 
+* Los libros pueden tener multiples categorias. // agregar categoria a libro. 						
 
-â—� Cualquier usuario (registrado o anÃ³nimo) puede consultar los libros. 								(LISTO)
+	Servicios asociados:
+	
+	1-addCategoryToBook
 
+* Cualquier usuario (registrado o anonimo) puede consultar los libros. 			
 
-â—� Cualquier usuario (registrado o anÃ³nimo) puede consultar todos los libros de una categorÃ­a   		(LISTO)
+	Servicios asociados: 
 
+	1- listAllBooks				
 
-â—� Cualquier usuario (registrado o anÃ³nimo) puede consultar los datos de un autor. 					(LISTO)
+* Cualquier usuario (registrado o anonimo) puede consultar todos los libros de una categoria  
+	
+	Servicios asociados: 
 
+	1-getAllByCategoryId
 
-â—� Cualquier usuario (registrado o anÃ³nimo) puede consultar todos los libros de 						(LISTO)
+*Cualquier usuario (registrado o anonimo) puede consultar los datos de un autor. 					
+	
+	Servicio asociado:
+
+	1-consultAuthorData
+
+* Cualquier usuario (registrado o anonimo) puede consultar todos los libros de 						
 un autor 
 
-â—� La soluciÃ³n debe permitir generar un excel de reporte donde indique: Total de  					(LISTO)
-libros, total de autores, total de categorÃ­as, total de libros por cada categorÃ­a
+	Servicio asociado: 
+
+	1- getAllByAuthorId
+
+* La soluciÃ³n debe permitir generar un excel de reporte donde indique: Total de  					
+libros, total de autores, total de categorias, total de libros por cada categoria
 de libro.
+
+	1- listAllCategories
+	2- totalBooksByCategory
+	3- totalBooksByAuthor
+	4- GenerateExcelReport (interno: getTotalBooks)
+
+
